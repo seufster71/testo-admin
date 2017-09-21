@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Insert title here</title>
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<script>
+		function sendRequest() {
+			var data = new Object;
+			data.params = new Object;
+			data.params.service = "ADMIN_SVC";
+			data.params.action = "SAVE";
+			data.params.jms = document.getElementById("jms").value;
+			data.params.kafka = document.getElementById("kafka").value;
+		
+			$.ajax({
+				  url:"/api/admin/service",
+				  type:"POST",
+				  data:JSON.stringify(data),
+				  contentType:"application/json; charset=utf-8",
+				  dataType:"json",
+				  success: function(){
+					  
+				  }
+				});
+		}
+	</script>
+</head>
+<body>
+	Test Area
+	<br>
+	Test JMS: <input type="text" id="jms"><br>
+	Test Kafka: <input type="text" id="kafka"><br>
+	
+	<button type="button" onclick="sendRequest()" >Click Me!</button>
+</body>
+</html>
