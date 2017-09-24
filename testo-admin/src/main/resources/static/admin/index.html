@@ -14,44 +14,46 @@
 
 	<script>
 		function sendRequest() {
-			var data = new Object;
-			data.params = new Object;
-			data.params.service = "ADMIN_SVC";
-			data.params.action = "EXEC";
-			data.params.msadd = document.getElementById("testMSadd20").value;
-		
+			var request1 = new Object;
+			request1.params = new Object;
+			request1.params.service = "ADMIN_SVC";
+			request1.params.action = "EXEC";
+			request1.params.jms = document.getElementById("testJMS").value;
+			request1.params.kafka = document.getElementById("testKafka").value;
 			$.ajax({
 				  url:"/api/admin/service",
 				  type:"POST",
-				  data:JSON.stringify(data),
+				  data:JSON.stringify(request1),
 				  contentType:"application/json; charset=utf-8",
 				  dataType:"json",
-				  success: function(){
-					  showResults();
+				  success: function(data){
+					  showResults(data);
 				  }
 				});
 
-			var data = new Object;
-			data.params = new Object;
-			data.params.service = "CALC_SVC";
-			data.params.action = "EXEC";
-			data.params.msadd = document.getElementById("testMSadd20").value;
+			var request2 = new Object;
+			request2.params = new Object;
+			request2.params.service = "CALC_SVC";
+			request2.params.action = "EXEC";
+			request2.params.msadd = "$".concat(document.getElementById("testMSadd20").value);
 		
 			$.ajax({
 				  url:"/api/admin/service",
 				  type:"POST",
-				  data:JSON.stringify(data),
+				  data:JSON.stringify(request2),
 				  contentType:"application/json; charset=utf-8",
 				  dataType:"json",
-				  success: function(){
-					  showResults();
+				  success: function(data){
+					  showResults(data);
 				  }
 				});
 		}
 
 		function showResults(JSONData) {
-			
+			if (JSONData.params.msaddresult != null && JSONData.params.msaddresult != "") {
+				document.getElementById("testMSadd20result").innerHTML = JSONData.params.msaddresult;
 			}
+		}
 	</script>
 	
 </head>
@@ -70,7 +72,10 @@
   		</div>
 		<div class="form-group">
     		<label for="testMSadd20">Test microservice add 20</label>
-    		<input type="text" class="form-control" id="testMSadd20" placeholder="Enter number">
+    		<div class="input-group">
+    			<span class="input-group-addon">$</span>
+	    		<input type="text" class="form-control" id="testMSadd20" placeholder="Enter number">
+    		</div>
     		<small id="testMSadd20result" class="form-text text-muted">Result will return here.</small>
   		</div>
 		<button type="button" class="btn btn-primary" onclick="sendRequest()">Submit</button>

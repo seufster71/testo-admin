@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.testo.core.service.MicroServiceClient;
 import org.testo.core.service.ServiceProcessor;
 import org.testo.core.service.ValidatorSvc;
 import org.testo.core.utils.ErrorMsg;
@@ -24,6 +25,9 @@ public class adminWS {
 	@Autowired
 	protected ApplicationContext context;
 	
+	@Autowired
+	protected MicroServiceClient microServiceClient;
+	
 	@RequestMapping(value = "service", method = RequestMethod.POST)
 	public Response service(@RequestBody Request request){
 		Response response = new Response();
@@ -38,16 +42,20 @@ public class adminWS {
 					className = "AdminSvc";
 					break;
 				case "CALC_SVC":
-					className = "CalcSvc";
+					// use remote service
+					request.getParams().put(GlobalConstant.MICROSERVICENAME, "service-calc");
+					request.getParams().put(GlobalConstant.MICROSERVICEPATH, "api/calc/service");
+					microServiceClient.process(request, response);
 					break;
 				case "USER_SVC":
 					className = "UserSvc";
 					break;
 			}
-			ServiceProcessor processor = (ServiceProcessor) context.getBean(className);
-			
-			processor.process(request, response);
-		
+			if (!"".equals(className)) {
+				ServiceProcessor processor = (ServiceProcessor) context.getBean(className);
+				
+				processor.process(request, response);
+			}
 		} catch (ValidationException e) {
 			// Validation has occured need to update response
 			ErrorMsg.addMsg(response, GlobalConstant.VALIDATION, e.getMessage());
