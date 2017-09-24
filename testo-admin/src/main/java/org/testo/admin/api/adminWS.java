@@ -50,6 +50,9 @@ public class adminWS {
 				case "USER_SVC":
 					className = "UserSvc";
 					break;
+				default:
+					ErrorMsg.addMsg(response, GlobalConstant.WARN, "The service does not exist!");
+					break;
 			}
 			if (!"".equals(className)) {
 				ServiceProcessor processor = (ServiceProcessor) context.getBean(className);

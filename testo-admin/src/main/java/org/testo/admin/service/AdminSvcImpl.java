@@ -69,7 +69,7 @@ public class AdminSvcImpl implements ServiceProcessor, AdminSvc {
 			ErrorMsg.addMsg(response, GlobalConstant.KAFKA, e.getMessage());
 		} catch (Exception e) {
 			// Overall failure
-			ErrorMsg.addMsg(response, GlobalConstant.KAFKA, e.getMessage());
+			ErrorMsg.addMsg(response, GlobalConstant.FAIL, e.getMessage());
 		}
 	}
 	
@@ -78,8 +78,8 @@ public class AdminSvcImpl implements ServiceProcessor, AdminSvc {
 		try {
 			adminDao.item(request, response);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// Overall failure
+			ErrorMsg.addMsg(response, GlobalConstant.FAIL, e.getMessage());
 		}
 	}
 
@@ -88,8 +88,8 @@ public class AdminSvcImpl implements ServiceProcessor, AdminSvc {
 		try {
 			adminDao.list(request, response);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// Overall failure
+			ErrorMsg.addMsg(response, GlobalConstant.FAIL, e.getMessage());
 		}
 	}
 	
@@ -98,8 +98,8 @@ public class AdminSvcImpl implements ServiceProcessor, AdminSvc {
 		try {
 			adminDao.save(request, response);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// Overall failure
+			ErrorMsg.addMsg(response, GlobalConstant.FAIL, e.getMessage());
 		}
 
 	}
