@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.testo.admin.service.AdminSvc;
 import org.testo.core.service.ServiceProcessor;
 import org.testo.core.utils.Request;
 import org.testo.core.utils.Response;
@@ -14,9 +13,6 @@ import org.testo.core.utils.Response;
 @RestController
 @RequestMapping("/api/admin/")
 public class adminWS {
-
-	@Autowired
-	protected AdminSvc adminSvc;
 	
 	@Autowired
 	protected ApplicationContext context;
@@ -29,16 +25,16 @@ public class adminWS {
 		String className = "";
 		switch (service) {
 			case "ADMIN_SVC":
-				className = "AdminSvcImpl";
-				//adminSvc.item(request, response);
+				className = "AdminSvc";
+				
 				break;
 			case "CALC_SVC":
-				className = "CalcSvcImpl";
-				//adminSvc.item(request, response);
+				className = "CalcSvc";
+				
 				break;
 			case "USER_SVC":
-				className = "UserSvcImpl";
-				//adminSvc.item(request, response);
+				className = "UserSvc";
+				
 				break;
 		}
 		ServiceProcessor processor = (ServiceProcessor) context.getBean(className);

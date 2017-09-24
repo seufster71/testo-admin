@@ -13,7 +13,7 @@ import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
-import org.testo.core.model.WorkUnit;
+import org.testo.core.model.KafkaMsg;
 
 
 @Configuration
@@ -23,7 +23,7 @@ public class KafkaProducerConfig {
     private KafkaProducerProperties kafkaProducerProperties;
 
     @Bean
-    public ProducerFactory<String, WorkUnit> producerFactory() {
+    public ProducerFactory<String, KafkaMsg> producerFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfigs(), stringKeySerializer(), workUnitJsonSerializer());
     }
 
@@ -35,8 +35,8 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, WorkUnit> workUnitsKafkaTemplate() {
-        KafkaTemplate<String, WorkUnit> kafkaTemplate =  new KafkaTemplate<>(producerFactory());
+    public KafkaTemplate<String, KafkaMsg> workUnitsKafkaTemplate() {
+        KafkaTemplate<String, KafkaMsg> kafkaTemplate =  new KafkaTemplate<>(producerFactory());
         kafkaTemplate.setDefaultTopic(kafkaProducerProperties.getTopic());
         return kafkaTemplate;
     }

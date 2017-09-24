@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="ISO-8859-1">
-	<title>Insert title here</title>
-	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Admin</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	
+
 	<script>
 		function sendRequest() {
 			var data = new Object;
 			data.params = new Object;
 			data.params.service = "ADMIN_SVC";
-			data.params.action = "SAVE";
-			data.params.jms = document.getElementById("jms").value;
-			data.params.kafka = document.getElementById("kafka").value;
+			data.params.action = "EXEC";
+			data.params.msadd = document.getElementById("testMSadd20").value;
 		
 			$.ajax({
 				  url:"/api/admin/service",
@@ -20,18 +27,54 @@
 				  contentType:"application/json; charset=utf-8",
 				  dataType:"json",
 				  success: function(){
-					  
+					  showResults();
+				  }
+				});
+
+			var data = new Object;
+			data.params = new Object;
+			data.params.service = "CALC_SVC";
+			data.params.action = "EXEC";
+			data.params.msadd = document.getElementById("testMSadd20").value;
+		
+			$.ajax({
+				  url:"/api/admin/service",
+				  type:"POST",
+				  data:JSON.stringify(data),
+				  contentType:"application/json; charset=utf-8",
+				  dataType:"json",
+				  success: function(){
+					  showResults();
 				  }
 				});
 		}
+
+		function showResults(JSONData) {
+			
+			}
 	</script>
+	
 </head>
 <body>
-	Test Area
-	<br>
-	Test JMS: <input type="text" id="jms"><br>
-	Test Kafka: <input type="text" id="kafka"><br>
-	
-	<button type="button" onclick="sendRequest()" >Click Me!</button>
+	<div class="container">
+		<h1>Admin Page</h1>
+		<p>testo-admin</p> 
+		<hr>
+		<div class="form-group">
+    		<label for="testJSM">Test JMS</label>
+    		<input type="text" class="form-control" id="testJMS" aria-describedby="testJMS" placeholder="Enter message">
+  		</div>
+  		<div class="form-group">
+    		<label for="testKafka">Test Kafka</label>
+    		<input type="text" class="form-control" id="testKafka" placeholder="Enter message">
+  		</div>
+		<div class="form-group">
+    		<label for="testMSadd20">Test microservice add 20</label>
+    		<input type="text" class="form-control" id="testMSadd20" placeholder="Enter number">
+    		<small id="testMSadd20result" class="form-text text-muted">Result will return here.</small>
+  		</div>
+		<button type="button" class="btn btn-primary" onclick="sendRequest()">Submit</button>
+
+	</div>
 </body>
 </html>

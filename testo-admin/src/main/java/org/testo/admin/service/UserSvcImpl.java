@@ -7,7 +7,7 @@ import org.testo.core.service.ServiceProcessor;
 import org.testo.core.utils.Request;
 import org.testo.core.utils.Response;
 
-@Service("UserSvcImpl")
+@Service("UserSvc")
 public class UserSvcImpl implements ServiceProcessor, UserSvc {
 
 	@Autowired
@@ -31,16 +31,31 @@ public class UserSvcImpl implements ServiceProcessor, UserSvc {
 
 	@Override
 	public void item(Request request, Response response){
-		userDao.item(request, response);
+		try {
+			userDao.item(request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
 	public void list(Request request, Response response) {
-		userDao.list(request, response);
+		try {
+			userDao.list(request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void save(Request request, Response response) {
-		userDao.save(request, response);
+		try {
+			userDao.save(request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
