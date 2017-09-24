@@ -15,13 +15,9 @@ import org.testo.core.utils.KafkaException;
 import org.testo.core.utils.Request;
 import org.testo.core.utils.Response;
 import org.testo.core.utils.StatusMsg;
-import org.testo.core.utils.ValidationException;
 
 @Service("AdminSvc")
 public class AdminSvcImpl implements ServiceProcessor, AdminSvc {
-
-	@Autowired
-	protected ValidatorSvc validatorSvc;
 	
 	@Autowired
 	protected AdminDao adminDao;
@@ -35,37 +31,25 @@ public class AdminSvcImpl implements ServiceProcessor, AdminSvc {
 	@Override
 	public void process(Request request, Response response) {
 		
-		try {
-			validatorSvc.validate(request, response);
-			
-			String action = (String) request.getParams().get("action");
-			switch (action) {
-				case "LIST":
-					this.list(request, response);
-					break;
-				case "ITEM":
-					this.item(request, response);
-					break;
-				case "SAVE":
-					this.save(request, response);
-					break;
-				case "EXEC":
-					this.exec(request, response);
-					break;
-				default:
-					ErrorMsg.addMsg(response, GlobalConstant.WARN, "The action does not exist!");
-					break;
-			}
-			
-		} catch (ValidationException e) {
-			// Validation has occured need to update response
-			ErrorMsg.addMsg(response, GlobalConstant.VALIDATION, e.getMessage());
-		} catch (Exception e) {
-			// Overall failure
-			ErrorMsg.addMsg(response, GlobalConstant.FAIL, e.getMessage());
+		String action = (String) request.getParams().get("action");
+		switch (action) {
+			case "LIST":
+				this.list(request, response);
+				break;
+			case "ITEM":
+				this.item(request, response);
+				break;
+			case "SAVE":
+				this.save(request, response);
+				break;
+			case "EXEC":
+				this.exec(request, response);
+				break;
+			default:
+				ErrorMsg.addMsg(response, GlobalConstant.WARN, "The action does not exist!");
+				break;
 		}
-		
-		
+
 	}
 	
 	@Override
